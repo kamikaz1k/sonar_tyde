@@ -1,6 +1,7 @@
 var React = require('react');
 var Player = require('../components/Player');
 var scHelpers = require('../utils/scHelpers');
+var TrackHistory = require('./TrackHistory');
 
 // Container gets the next track to be played,
 // and passes it to the player component
@@ -8,6 +9,7 @@ var PlayerContainer = React.createClass({
   getInitialState: function () {
     return {
       // streamURL, trackName, artistName, albumArt
+      trackHistory: [],
       streamURL: '',
       pageURL: '',
       trackName: '[Empty]',
@@ -27,13 +29,17 @@ var PlayerContainer = React.createClass({
         // Set image as avatar if album unavailable
         trackObj.albumArt = trackObj.albumArt ? trackObj.albumArt : trackObj.artistImg;
 
+        container.state.trackHistory.unshift(trackObj);
         container.setState({
           streamURL: trackObj.streamURL,
           trackName: trackObj.trackName,
           artistName: trackObj.artistName,
           albumArt: trackObj.albumArt,
           pageURL: trackObj.pageURL
-        })
+        });
+
+        console.log("Unshifted trackHistory ", container.state.trackHistory);
+
       }
 
     }, function (err) {
@@ -46,14 +52,18 @@ var PlayerContainer = React.createClass({
     window.open(this.state.pageURL);
   },
   render: function () {
+    console.log("Rendering PlayerContainer ", this.state.trackHistory);
     return (
-      <Player
-        streamURL={ this.state.streamURL }
-        trackName={ this.state.trackName }
-        artistName={ this.state.artistName }
-        albumArt={ this.state.albumArt }
-        onNextTrack={ this.handleGetNextTrack }
-        onOpenPage={ this.handleOpenPage } />
+      <span>
+        <Player
+          streamURL={ this.state.streamURL }
+          trackName={ this.state.trackName }
+          artistName={ this.state.artistName }
+          albumArt={ this.state.albumArt }
+          onNextTrack={ this.handleGetNextTrack }
+          onOpenPage={ this.handleOpenPage } />
+        <TrackHistory tracks={ this.state.trackHistory } />
+      </span>
     )
   }
 });
