@@ -9,6 +9,7 @@ var PlayerContainer = React.createClass({
     return {
       // streamURL, trackName, artistName, albumArt
       streamURL: '',
+      pageURL: '',
       trackName: '[Empty]',
       artistName: '[Yo Face]',
       albumArt: ''
@@ -22,11 +23,16 @@ var PlayerContainer = React.createClass({
     scHelpers.getNextTrack().then(function (trackObj){
       console.log("getNextTrack Success: ", trackObj);
       if (trackObj.streamURL) {
+
+        // Set image as avatar if album unavailable
+        trackObj.albumArt = trackObj.albumArt ? trackObj.albumArt : trackObj.artistImg;
+
         container.setState({
           streamURL: trackObj.streamURL,
           trackName: trackObj.trackName,
           artistName: trackObj.artistName,
-          albumArt: trackObj.albumArt
+          albumArt: trackObj.albumArt,
+          pageURL: trackObj.pageURL
         })
       }
 
@@ -36,6 +42,9 @@ var PlayerContainer = React.createClass({
     // getNextTrack from SC
     // .then(function (){ this.setState({}); })
   },
+  handleOpenPage: function () {
+    window.open(this.state.pageURL);
+  },
   render: function () {
     return (
       <Player
@@ -43,7 +52,8 @@ var PlayerContainer = React.createClass({
         trackName={ this.state.trackName }
         artistName={ this.state.artistName }
         albumArt={ this.state.albumArt }
-        onNextTrack={ this.handleGetNextTrack } />
+        onNextTrack={ this.handleGetNextTrack }
+        onOpenPage={ this.handleOpenPage } />
     )
   }
 });
