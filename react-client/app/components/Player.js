@@ -9,7 +9,7 @@ var Player = React.createClass({
       <span>
       <div className="container" style={ style.centerText }>
         <p id="track-name">{ this.props.trackName }</p>
-			  <img id="album-art" style={ style.albumBg } src={ this.props.albumArt }></img>
+			  <img id="album-art" style={ style.albumBg } src={ this.props.albumArt } onClick={ this.props.onOpenPage }></img>
 		  </div>
 
   		<div className="container" style={ style.centerText }>
