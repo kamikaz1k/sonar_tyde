@@ -27,6 +27,10 @@ function extractInfo (scObj) {
   // return scObj;
   scObj = scObj.data;
 
+  // Get bigger pictures
+  if (scObj.user.avatar_url) scObj.user.avatar_url = scObj.user.avatar_url.replace("-large.","-t300x300.");
+  if (scObj.artwork_url) scObj.artwork_url = scObj.artwork_url.replace("-large.","-t300x300.");
+
   var parsed = {
     streamURL: scObj.stream_url + clientId,
     pageURL: scObj.permalink_url,
