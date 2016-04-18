@@ -19,7 +19,7 @@ var PlayerContainer = React.createClass({
   },
   handleGetNextTrack: function (e) {
     console.log("handleGetNextTrack", e);
-    e.preventDefault();
+    if (e) e.preventDefault();
 
     var container = this;
     scHelpers.getNextTrack().then(function (trackObj){
@@ -51,6 +51,14 @@ var PlayerContainer = React.createClass({
   handleOpenPage: function () {
     window.open(this.state.pageURL);
   },
+  handleTrackEnded: function () {
+    console.log("handleTrackEnded");
+    this.handleGetNextTrack();
+  },
+  handlePlaybackError: function () {
+    console.log("handlePlaybackError");
+    // this.handleGetNextTrack();
+  },
   render: function () {
     console.log("Rendering PlayerContainer ", this.state.trackHistory);
     return (
@@ -61,7 +69,9 @@ var PlayerContainer = React.createClass({
           artistName={ this.state.artistName }
           albumArt={ this.state.albumArt }
           onNextTrack={ this.handleGetNextTrack }
-          onOpenPage={ this.handleOpenPage } />
+          onOpenPage={ this.handleOpenPage }
+          onTrackEnded={ this.handleTrackEnded }
+          onPlaybackError={ this.handlePlaybackError } />
         <TrackHistory tracks={ this.state.trackHistory } />
       </span>
     )
