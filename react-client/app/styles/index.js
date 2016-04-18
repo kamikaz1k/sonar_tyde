@@ -7,6 +7,11 @@ var styles = {
     height: '300px',
   	width: '300px',
   	backgroundColor: 'black'
+  },
+  trackList: {
+    listStyleType: 'none',
+    textAlign: 'center',
+    padding: '15px'
   }
 }
 
